@@ -24,12 +24,16 @@
   }];
 </script>
 
-<EndlessList data={data} let:item>
+<EndlessList 
+  class="my-list" 
+  data={data} 
+  padding={[75, 20, 75, 20]}
+  let:item>
   <div class="card">
     <img class="thumbnail" src={item.thumbnail} alt={`Preview image ${item.title}`} />
     <div class="content">
-      <h3>Item 1</h3>
-      <p>Description...</p>
+      <h3>{item.title}</h3>
+      <p>{item.description}</p>
     </div>
   </div>
 </EndlessList>
