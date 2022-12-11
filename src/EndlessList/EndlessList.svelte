@@ -6,6 +6,12 @@
 
   let container;
 
+  // Size when entering/leaving
+  const MIN_SCALE = 0.92;
+
+  // Vertical offset when entering/leaving
+  const MAX_DY = 14;
+
   // Intersection observer callback
   const callback = entries => entries.forEach(entry => {
     const { style } = entry.target;
@@ -13,12 +19,15 @@
 
     if (entry.isIntersecting) {
       style.opacity = Math.pow(ratio, 2);
-      // style.zIndex = Math.round(ratio * 10);
 
-      // const isAbove = entry.boundingClientRect.y < entry.rootBounds.y;
-      // const offset = isAbove ? yOffset(r) : -yOffset(r);
+      // Scale factor as a function of intersection ratio
+      const scale = ratio * (1 - MIN_SCALE) + MIN_SCALE;
 
-      // style.transform = `scale(${interpolate(ratio)})`; // translateY(${offset}px)`;
+      // Vertical offset
+      const isAbove = entry.boundingClientRect.y < entry.rootBounds.y;
+      const dy = MAX_DY - (ratio * MAX_DY);
+
+      style.transform = `scale(${scale}) translateY(${isAbove ? dy : -dy}px)`;
     } else {
       style.opacity = 0;
     }
